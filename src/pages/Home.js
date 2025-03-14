@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import * as anchor from '@project-serum/anchor';
+import { SOL_DECIMALS } from "./web3/constants";
 
 import {
     SOLANA_HOST,
@@ -68,6 +69,7 @@ function Home() {
 
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [balance, setWalletBalance] = useState(0);
 
     const wallet = useWallet();
 
@@ -90,8 +92,9 @@ function Home() {
             // const adm = await getAdmin(wallet);
             // setAdmin(adm);
 
-            // const balance1 = await connection.getBalance(wallet.publicKey);
-            // setWalletBalance(balance1 / 10 ** SOL_DECIMALS);
+            const balance1 = await connection.getBalance(wallet.publicKey);
+            console.log("balance1:", balance1);
+            setWalletBalance(balance1 / 10 ** SOL_DECIMALS);
 
             // const tokenAccount = await getAssociatedTokenAddress(aSEC, wallet.publicKey);
             // const accountInfo = await getAccount(connection, tokenAccount);
