@@ -144,7 +144,7 @@ export type SolanaTokenPresale = {
       ]
     },
     {
-      "name": "claimToken",
+      "name": "withdrawToken",
       "accounts": [
         {
           "name": "globalState",
@@ -208,6 +208,11 @@ export type SolanaTokenPresale = {
           "isSigner": true
         },
         {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "solVault",
           "isMut": true,
           "isSigner": false
@@ -256,7 +261,7 @@ export type SolanaTokenPresale = {
       ]
     },
     {
-      "name": "swapToken",
+      "name": "claimToken",
       "accounts": [
         {
           "name": "globalState",
@@ -372,6 +377,10 @@ export type SolanaTokenPresale = {
             "type": "publicKey"
           },
           {
+            "name": "referral",
+            "type": "publicKey"
+          },
+          {
             "name": "amount",
             "type": "u64"
           }
@@ -479,7 +488,10 @@ export type SolanaTokenPresale = {
       "name": "InvalidToken",
       "msg": "Should be specied tokens"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "5KzCBkpXMSjtFtjyQZSSBzJ9H1yWKFikV3Ah3kSUX7t1"
+  }
 };
 
 export const IDL: SolanaTokenPresale = {
@@ -628,7 +640,7 @@ export const IDL: SolanaTokenPresale = {
       ]
     },
     {
-      "name": "claimToken",
+      "name": "withdrawToken",
       "accounts": [
         {
           "name": "globalState",
@@ -692,6 +704,11 @@ export const IDL: SolanaTokenPresale = {
           "isSigner": true
         },
         {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "solVault",
           "isMut": true,
           "isSigner": false
@@ -740,7 +757,7 @@ export const IDL: SolanaTokenPresale = {
       ]
     },
     {
-      "name": "swapToken",
+      "name": "claimToken",
       "accounts": [
         {
           "name": "globalState",
@@ -856,6 +873,10 @@ export const IDL: SolanaTokenPresale = {
             "type": "publicKey"
           },
           {
+            "name": "referral",
+            "type": "publicKey"
+          },
+          {
             "name": "amount",
             "type": "u64"
           }
@@ -963,5 +984,8 @@ export const IDL: SolanaTokenPresale = {
       "name": "InvalidToken",
       "msg": "Should be specied tokens"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "5KzCBkpXMSjtFtjyQZSSBzJ9H1yWKFikV3Ah3kSUX7t1"
+  }
 }
