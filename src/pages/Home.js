@@ -96,9 +96,9 @@ function Home() {
             console.log("balance1:", balance1);
             setWalletBalance(balance1 / 10 ** SOL_DECIMALS);
 
-            // const tokenAccount = await getAssociatedTokenAddress(aSEC, wallet.publicKey);
+            // const tokenAccount = await getAssociatedTokenAddress(ALT_TOKEN_PUBKEY, wallet.publicKey);
             // const accountInfo = await getAccount(connection, tokenAccount);
-            // setTokenBalance(Number(accountInfo.amount) / 10 ** SEC_DECIMALS);
+            // setTokenBalance(Number(accountInfo.amount) / 10 ** TOKEN_DECIMALS);
 
             // const sold_amount = await getSoldInfo(wallet);
             // setTotalAmount(sold_amount);
@@ -214,7 +214,7 @@ function Home() {
     const handleBuyNow = async () => {
         console.log("click buy button")
         // console.log("wallet: ", wallet.publicKey.toString());
-        if (wallet.publicKey.toString() === "" || wallet.publicKey.toString() === null) {
+        if (wallet.publicKey === null || wallet.publicKey === null) {
             alert("Please connect your wallet first!");
         }
         if (saleProgress < totalSupply) {

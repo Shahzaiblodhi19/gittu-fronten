@@ -27,10 +27,9 @@ import {
 
 import {
   PROGRAM_ID,
-  SEC,
-  SEC_DECIMALS,
+  TOKEN_PUBKEY,
+  TOKEN_DECIMALS,
   PRICE_PER_TOKEN,
-  aSEC,
   ALT_TOKEN_PUBKEY,
   SOL_DECIMALS,
   PRESALE_START_TIMESTAMP,
@@ -90,8 +89,8 @@ export const createGlobalState = async (wallet, token_decimal, token_price, maxA
 
   // Todo
   const stateKey = await keys.getGlobalStateKey();
-  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, SEC);
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
+  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, TOKEN_PUBKEY);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
   const solVault = await keys.getVaultKey();
   const tokenPrice = convertToSolDecimal(token_price);
   const tokenDecimal = new BN(token_decimal);
@@ -103,9 +102,9 @@ export const createGlobalState = async (wallet, token_decimal, token_price, maxA
       .accounts({
         globalState: stateKey,
         solVault: solVault,
-        mint: SEC,
+        mint: TOKEN_PUBKEY,
         vault: rTokenVault,
-        altMint: aSEC,
+        altMint: ALT_TOKEN_PUBKEY,
         altVault: aTokenVault,
         authority: wallet.publicKey,
         systemProgram: SystemProgram.programId,
@@ -145,8 +144,8 @@ export const depositAltToken = async (wallet, amount) => {
   const program = getProgram(wallet);
 
   const stateKey = await keys.getGlobalStateKey();
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, aSEC);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, ALT_TOKEN_PUBKEY);
   const depositAltTokenAmount = convertToDecimal(amount);
   const tx = new Transaction();
   tx.add(
@@ -155,7 +154,7 @@ export const depositAltToken = async (wallet, amount) => {
       .accounts({
         globalState: stateKey,
         authority: wallet.publicKey,
-        mint: aSEC,
+        mint: ALT_TOKEN_PUBKEY,
         poolVault: aTokenVault,
         userVault: userVault,
         systemProgram: SystemProgram.programId,
@@ -173,8 +172,8 @@ export const depositRealToken = async (wallet, amount) => {
   const program = getProgram(wallet);
 
   const stateKey = await keys.getGlobalStateKey();
-  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, SEC);
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, SEC);
+  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, TOKEN_PUBKEY);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, TOKEN_PUBKEY);
   const depositAltTokenAmount = convertToDecimal(amount);
   const tx = new Transaction();
   tx.add(
@@ -183,7 +182,7 @@ export const depositRealToken = async (wallet, amount) => {
       .accounts({
         globalState: stateKey,
         authority: wallet.publicKey,
-        mint: SEC,
+        mint: TOKEN_PUBKEY,
         poolVault: rTokenVault,
         userVault: userVault,
         systemProgram: SystemProgram.programId,
@@ -209,8 +208,8 @@ export const claimRealToken = async (wallet, amount) => {
 
   const program = getProgram(wallet);
   const stateKey = await keys.getGlobalStateKey();
-  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, SEC);
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, SEC);
+  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, TOKEN_PUBKEY);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, TOKEN_PUBKEY);
   const depositRealTokenAmount = convertToDecimal(amount);
 
   const tx = new Transaction();
@@ -220,7 +219,7 @@ export const claimRealToken = async (wallet, amount) => {
       .accounts({
         globalState: stateKey,
         authority: wallet.publicKey,
-        mint: SEC,
+        mint: TOKEN_PUBKEY,
         poolVault: rTokenVault,
         userVault: userVault,
         systemProgram: SystemProgram.programId,
@@ -236,11 +235,11 @@ export const claimRealToken = async (wallet, amount) => {
 export const swapToken = async (wallet, amount) => {
   const program = getProgram(wallet);
   const stateKey = await keys.getGlobalStateKey();
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, aSEC);
-  const userRVault = await keys.getAssociatedTokenAccount(wallet.publicKey, SEC);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, ALT_TOKEN_PUBKEY);
+  const userRVault = await keys.getAssociatedTokenAccount(wallet.publicKey, TOKEN_PUBKEY);
   const depositRealTokenAmount = convertToDecimal(amount);
-  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, SEC);
+  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, TOKEN_PUBKEY);
 
   const tx = new Transaction();
   tx.add(
@@ -250,10 +249,10 @@ export const swapToken = async (wallet, amount) => {
         globalState: stateKey,
         authority: wallet.publicKey,
         poolAltVault: aTokenVault,
-        altMint: aSEC,
+        altMint: ALT_TOKEN_PUBKEY,
         userAltVault: userVault,
         poolVault: rTokenVault,
-        mint: SEC,
+        mint: TOKEN_PUBKEY,
         userVault: userRVault,
         systemProgram: SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
@@ -278,8 +277,8 @@ export const claimAltToken = async (wallet, amount) => {
 
   const program = getProgram(wallet);
   const stateKey = await keys.getGlobalStateKey();
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, aSEC);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, ALT_TOKEN_PUBKEY);
   const depositRealTokenAmount = convertToDecimal(amount);
 
   const tx = new Transaction();
@@ -289,7 +288,7 @@ export const claimAltToken = async (wallet, amount) => {
       .accounts({
         globalState: stateKey,
         authority: wallet.publicKey,
-        mint: aSEC,
+        mint: ALT_TOKEN_PUBKEY,
         poolVault: aTokenVault,
         userVault: userVault,
         systemProgram: SystemProgram.programId,
@@ -327,9 +326,9 @@ export const buyToken = async (wallet, amount) => {
 
   const stateKey = await keys.getGlobalStateKey();
 
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
   const userState = await keys.getUserKey(stateKey.toBuffer(), wallet.publicKey.toBuffer())
-  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, aSEC);
+  const userVault = await keys.getAssociatedTokenAccount(wallet.publicKey, ALT_TOKEN_PUBKEY);
   const solAmount = convertToSolDecimal(amount);
   const solVault = await keys.getVaultKey();
 
@@ -343,7 +342,7 @@ export const buyToken = async (wallet, amount) => {
         solVault: solVault,
         userState: userState,
         poolVault: aTokenVault,
-        altMint: aSEC,
+        altMint: ALT_TOKEN_PUBKEY,
         userVault: userVault,
         systemProgram: SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
@@ -458,7 +457,7 @@ export const getMaxAmount = async (wallet) => {
 
 export async function getTokenFromBalance() {
   const stateKey = await keys.getGlobalStateKey();
-  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, SEC);
+  const rTokenVault = await keys.getAssociatedTokenAccount(stateKey, TOKEN_PUBKEY);
   try {
     const info = await connection.getTokenAccountBalance(rTokenVault);
 
@@ -471,7 +470,7 @@ export async function getTokenFromBalance() {
 
 export async function getTotalSuplyToken(wallet) {
   const stateKey = await keys.getGlobalStateKey();
-  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, aSEC);
+  const aTokenVault = await keys.getAssociatedTokenAccount(stateKey, ALT_TOKEN_PUBKEY);
   try {
     const info = await connection.getTokenAccountBalance(aTokenVault);
 
@@ -552,7 +551,7 @@ export const showToast = (txt, duration = 5000, ty = 0) => {
 };
 
 export const convertToDecimal = (amount) => {
-  const integerStringValue = (parseFloat(amount) * 10 ** SEC_DECIMALS).toFixed(0);
+  const integerStringValue = (parseFloat(amount) * 10 ** TOKEN_DECIMALS).toFixed(0);
   const rAmount = new BN(integerStringValue);
   return rAmount
 }
@@ -564,7 +563,7 @@ export const convertToSolDecimal = (amount) => {
 }
 
 export const convertFromDecimal = (amount) => {
-  return amount / (10 ** SEC_DECIMALS)
+  return amount / (10 ** TOKEN_DECIMALS)
 }
 
 export const convertFromSolDecimal = (amount) => {
