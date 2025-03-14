@@ -489,47 +489,38 @@ function Home() {
                             </>
                         )}
                         <div className="d-flex align-items-center" style={{ gap: '18px' }}>
-                            <WalletMultiButton className="wallet-btn hid" />
-                            {/* {walletAddress ? (
-                                <button className="wallet-btn hid2  align-items-center" style={{ gap: '8px' }} onClick={() => setIsModalOpen(true)}>
-                                    {walletAddress.slice(0, 7)}...{walletAddress.slice(-4)}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 32 36" fill="none">
-                                        <path d="M17.6142 26.3391C16.7214 27.218 15.2714 27.218 14.3785 26.3391L2.94996 15.0891C2.0571 14.2102 2.0571 12.7828 2.94996 11.9039C3.84282 11.025 5.29282 11.025 6.18568 11.9039L16 21.5648L25.8142 11.9109C26.7071 11.032 28.1571 11.032 29.05 11.9109C29.9428 12.7898 29.9428 14.2172 29.05 15.0961L17.6214 26.3461L17.6142 26.3391Z" fill="white" />
-                                    </svg>
-                                </button>
-                            ) : (
-                                <button className="wallet-btn hid2" onClick={() => setIsModalOpen(true)}>Connect Wallet</button>
-                            )} */}
                             <button onClick={() => setResponsiveModal(!ResponsiveModal)} className="toggle-btns hid" style={{ display: 'none' }}><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 80 80" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10 22.5C10 21.837 10.2634 21.2011 10.7322 20.7322C11.2011 20.2634 11.837 20 12.5 20H67.5C68.163 20 68.7989 20.2634 69.2678 20.7322C69.7366 21.2011 70 21.837 70 22.5C70 23.163 69.7366 23.7989 69.2678 24.2678C68.7989 24.7366 68.163 25 67.5 25H12.5C11.837 25 11.2011 24.7366 10.7322 24.2678C10.2634 23.7989 10 23.163 10 22.5ZM10 40C10 39.337 10.2634 38.7011 10.7322 38.2322C11.2011 37.7634 11.837 37.5 12.5 37.5H67.5C68.163 37.5 68.7989 37.7634 69.2678 38.2322C69.7366 38.7011 70 39.337 70 40C70 40.663 69.7366 41.2989 69.2678 41.7678C68.7989 42.2366 68.163 42.5 67.5 42.5H12.5C11.837 42.5 11.2011 42.2366 10.7322 41.7678C10.2634 41.2989 10 40.663 10 40ZM37.5 57.5C37.5 56.837 37.7634 56.2011 38.2322 55.7322C38.7011 55.2634 39.337 55 40 55H67.5C68.163 55 68.7989 55.2634 69.2678 55.7322C69.7366 56.2011 70 56.837 70 57.5C70 58.163 69.7366 58.7989 69.2678 59.2678C68.7989 59.7366 68.163 60 67.5 60H40C39.337 60 38.7011 59.7366 38.2322 59.2678C37.7634 58.7989 37.5 58.163 37.5 57.5Z" fill="white" />
                             </svg></button>
 
                         </div>
                     </div>
-                    <div className="nav hmmm">
-                        {/* {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''} */}
-                        <button className="hmm"><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button>
-                        <button className="hmm"><ScrollLink to="affiliate"
-                            smooth={true}  // Enable smooth scrolling
-                            duration={500} // Duration of the scroll (in ms)
-                            style={{ textDecorationLine: 'none', color: 'white' }}>Affiliate Program</ScrollLink></button>
-                        <button className="hmm"><ScrollLink to="roadmap"
-                            smooth={true}  // Enable smooth scrolling
-                            duration={500} // Duration of the scroll (in ms)
-                            style={{ textDecorationLine: 'none', color: 'white' }}>Road Map</ScrollLink></button>
-                        <button className="hmm"><ScrollLink to="token"
-                            smooth={true}  // Enable smooth scrolling
-                            duration={500} // Duration of the scroll (in ms)
-                            style={{ textDecorationLine: 'none', color: 'white' }}>Token Distribution</ScrollLink></button>
-                        <button className="hmm"><ScrollLink to="blog"
-                            smooth={true}  // Enable smooth scrolling
-                            duration={500} // Duration of the scroll (in ms)
-                            style={{ textDecorationLine: 'none', color: 'white' }}>Blogs</ScrollLink></button>
-                        <button className="hmm"><ScrollLink to="faq"
-                            smooth={true}  // Enable smooth scrolling
-                            duration={500} // Duration of the scroll (in ms)
-                            style={{ textDecorationLine: 'none', color: 'white' }}>Faqs</ScrollLink></button>
-                        <WalletMultiButton className="wallet-btn hid" />
+                    <div style={{ display: "flex", flexDirection: "row", gap:"10px" }}>
+                        <div className="nav hmmm">
+                            {/* {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''} */}
+                            <button className="hmm"><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button>
+                            <button className="hmm"><ScrollLink to="affiliate"
+                                smooth={true}  // Enable smooth scrolling
+                                duration={500} // Duration of the scroll (in ms)
+                                style={{ textDecorationLine: 'none', color: 'white' }}>Affiliate Program</ScrollLink></button>
+                            <button className="hmm"><ScrollLink to="roadmap"
+                                smooth={true}  // Enable smooth scrolling
+                                duration={500} // Duration of the scroll (in ms)
+                                style={{ textDecorationLine: 'none', color: 'white' }}>Road Map</ScrollLink></button>
+                            <button className="hmm"><ScrollLink to="token"
+                                smooth={true}  // Enable smooth scrolling
+                                duration={500} // Duration of the scroll (in ms)
+                                style={{ textDecorationLine: 'none', color: 'white' }}>Token Distribution</ScrollLink></button>
+                            <button className="hmm"><ScrollLink to="blog"
+                                smooth={true}  // Enable smooth scrolling
+                                duration={500} // Duration of the scroll (in ms)
+                                style={{ textDecorationLine: 'none', color: 'white' }}>Blogs</ScrollLink></button>
+                            <button className="hmm"><ScrollLink to="faq"
+                                smooth={true}  // Enable smooth scrolling
+                                duration={500} // Duration of the scroll (in ms)
+                                style={{ textDecorationLine: 'none', color: 'white' }}>Faqs</ScrollLink></button>
+                        </div>
+                        <WalletMultiButton />
                     </div>
                 </header>
                 <div className="container" style={{ paddingTop: '110px' }}>
@@ -537,8 +528,8 @@ function Home() {
                         <div className="content col-xl-7 col-12">
                             <img style={{ position: 'absolute', left: '-30px', top: '24px', height: '95%' }} className="" src={bg_part} alt="part-bg" />
                             {/* , zIndex:"0"  */}
-                            <div className="sale-details w-100" >
-                                {/* style={{zIndex:9999}} */}
+                            <div className="sale-details w-100" style={{ zIndex: 1 }}>
+
                                 <h1>Invest in the  <img className="mx-3 mb-1 i1" src={head1} alt="" /> <br /> </h1>
                                 <h1 className="mt-3"><span style={{ color: '#65EA88' }} >Future </span> of <img className="mx-2 i2" src={head2} alt="" />  Finance</h1>
                                 <p className="par ">Buy tokens now and reap the benefits of the blockchain revolution!</p>
