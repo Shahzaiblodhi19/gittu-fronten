@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Web3 from "web3";
 import ReactModal from "react-modal";
 import Logo from '../assets/logo.png';
@@ -15,6 +15,7 @@ import bg_part from '../assets/bg-part.svg';
 import head1 from '../assets/head-img.svg';
 import map_bar from '../assets/map-bar.svg';
 import head2 from '../assets/head-2.svg';
+import Sol from '../assets/sol.png'
 import referal_img from "../assets/refferal-bg.svg";
 import Slider from 'react-slick';
 import { Doughnut } from 'react-chartjs-2';
@@ -68,7 +69,36 @@ function Home() {
     const [walletAddress, setWalletAddress] = useState(null);
 
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const videoRef = useRef(null);
+
+    // Handle video load completion
+    const handleVideoLoad = () => {
+        setIsLoading(false); // Hide loader once the video is loaded
+    };
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // If the video section is in the viewport, start playing
+                if (entry.isIntersecting) {
+                    setIsVideoPlaying(true);
+                }
+            },
+            { threshold: 0.5 } // Trigger when 50% of the video section is visible
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        // Clean up observer on unmount
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, []);
     const [balance, setWalletBalance] = useState(0);
 
     const wallet = useWallet();
@@ -112,15 +142,6 @@ function Home() {
             console.error("Error fetching balance:", error);
         }
     }
-
-    const handlePlayClick = () => {
-        setIsLoading(true); // Start loading when the play button is clicked
-        setIsVideoPlaying(true); // Start playing the video
-    };
-
-    const handleVideoLoad = () => {
-        setIsLoading(false); // Hide loader once the video is loaded
-    };
 
     // Detect Installed Wallets
     const [installedWallets, setInstalledWallets] = useState([]);
@@ -210,17 +231,6 @@ function Home() {
 
         return () => clearInterval(interval);
     }, []);
-
-    const handleBuyNow = async () => {
-        console.log("click buy button")
-        // console.log("wallet: ", wallet.publicKey.toString());
-        if (wallet.publicKey === null || wallet.publicKey === null) {
-            alert("Please connect your wallet first!");
-        }
-        if (saleProgress < totalSupply) {
-            setSaleProgress(saleProgress + 1000); // Example increment for purchase
-        }
-    };
 
     const getRemainingTime = (time) => {
         const days = Math.floor(time / (1000 * 60 * 60 * 24));
@@ -463,6 +473,31 @@ function Home() {
     const isOnHomePage = location.pathname === "/";  // Check if on / page
 
     const [ResponsiveModal, setResponsiveModal] = useState(false)
+    const [solAmount, setSolAmount] = useState('0');
+    const [gittuAmount, setGittuAmount] = useState('0');
+    const [isLoading2, setIsLoading2] = useState(false);
+
+    // Assuming a static conversion rate for SOL to Gittu (1 SOL = 100 GITTU)
+    const convertToGittu = (solAmount) => {
+        const conversionRate = 100; // Example conversion rate
+        return solAmount * conversionRate;
+    };
+
+    const handleSolAmountChange = (event) => {
+        const amount = event.target.value;
+        setSolAmount(amount);
+
+        if (amount > 0) {
+            const convertedAmount = convertToGittu(amount);
+            setGittuAmount(convertedAmount);
+        } else {
+            setGittuAmount(0);
+        }
+    };
+    const handleBuyNow = async () => {
+        alert("Successfuly Purchased")
+    };
+
     return (
         <>
             <div className="app-section" id="main">
@@ -488,15 +523,9 @@ function Home() {
 
                             </>
                         )}
-                        <div className="d-flex align-items-center" style={{ gap: '18px' }}>
-                            <button onClick={() => setResponsiveModal(!ResponsiveModal)} className="toggle-btns hid" style={{ display: 'none' }}><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 80 80" fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 22.5C10 21.837 10.2634 21.2011 10.7322 20.7322C11.2011 20.2634 11.837 20 12.5 20H67.5C68.163 20 68.7989 20.2634 69.2678 20.7322C69.7366 21.2011 70 21.837 70 22.5C70 23.163 69.7366 23.7989 69.2678 24.2678C68.7989 24.7366 68.163 25 67.5 25H12.5C11.837 25 11.2011 24.7366 10.7322 24.2678C10.2634 23.7989 10 23.163 10 22.5ZM10 40C10 39.337 10.2634 38.7011 10.7322 38.2322C11.2011 37.7634 11.837 37.5 12.5 37.5H67.5C68.163 37.5 68.7989 37.7634 69.2678 38.2322C69.7366 38.7011 70 39.337 70 40C70 40.663 69.7366 41.2989 69.2678 41.7678C68.7989 42.2366 68.163 42.5 67.5 42.5H12.5C11.837 42.5 11.2011 42.2366 10.7322 41.7678C10.2634 41.2989 10 40.663 10 40ZM37.5 57.5C37.5 56.837 37.7634 56.2011 38.2322 55.7322C38.7011 55.2634 39.337 55 40 55H67.5C68.163 55 68.7989 55.2634 69.2678 55.7322C69.7366 56.2011 70 56.837 70 57.5C70 58.163 69.7366 58.7989 69.2678 59.2678C68.7989 59.7366 68.163 60 67.5 60H40C39.337 60 38.7011 59.7366 38.2322 59.2678C37.7634 58.7989 37.5 58.163 37.5 57.5Z" fill="white" />
-                            </svg></button>
-
-                        </div>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", gap:"10px" }}>
-                        <div className="nav hmmm">
+                    <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                        <div className="nav ">
                             {/* {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''} */}
                             <button className="hmm"><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button>
                             <button className="hmm"><ScrollLink to="affiliate"
@@ -519,8 +548,14 @@ function Home() {
                                 smooth={true}  // Enable smooth scrolling
                                 duration={500} // Duration of the scroll (in ms)
                                 style={{ textDecorationLine: 'none', color: 'white' }}>Faqs</ScrollLink></button>
+
+                            <div className="d-flex align-items-center" style={{ gap: '18px' }}>
+                                <WalletMultiButton className="wallet-btn hid" />
+                                <button onClick={() => setResponsiveModal(!ResponsiveModal)} className="toggle-btns hid11" style={{ display: 'none' }}><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 80 80" fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10 22.5C10 21.837 10.2634 21.2011 10.7322 20.7322C11.2011 20.2634 11.837 20 12.5 20H67.5C68.163 20 68.7989 20.2634 69.2678 20.7322C69.7366 21.2011 70 21.837 70 22.5C70 23.163 69.7366 23.7989 69.2678 24.2678C68.7989 24.7366 68.163 25 67.5 25H12.5C11.837 25 11.2011 24.7366 10.7322 24.2678C10.2634 23.7989 10 23.163 10 22.5ZM10 40C10 39.337 10.2634 38.7011 10.7322 38.2322C11.2011 37.7634 11.837 37.5 12.5 37.5H67.5C68.163 37.5 68.7989 37.7634 69.2678 38.2322C69.7366 38.7011 70 39.337 70 40C70 40.663 69.7366 41.2989 69.2678 41.7678C68.7989 42.2366 68.163 42.5 67.5 42.5H12.5C11.837 42.5 11.2011 42.2366 10.7322 41.7678C10.2634 41.2989 10 40.663 10 40ZM37.5 57.5C37.5 56.837 37.7634 56.2011 38.2322 55.7322C38.7011 55.2634 39.337 55 40 55H67.5C68.163 55 68.7989 55.2634 69.2678 55.7322C69.7366 56.2011 70 56.837 70 57.5C70 58.163 69.7366 58.7989 69.2678 59.2678C68.7989 59.7366 68.163 60 67.5 60H40C39.337 60 38.7011 59.7366 38.2322 59.2678C37.7634 58.7989 37.5 58.163 37.5 57.5Z" fill="white" />
+                                </svg></button>
+                            </div>
                         </div>
-                        <WalletMultiButton />
                     </div>
                 </header>
                 <div className="container" style={{ paddingTop: '110px' }}>
@@ -547,8 +582,36 @@ function Home() {
                                 </div>
                                 <p className="mt-4 text-white mm">1 GITTU = 0.001 USD <br />
                                     NEXT STAGE = 0.002 USD</p>
-                                <p className="mt-4 text-white mm">Your Balance : {balance}<br />
-                                    </p>
+                                <p className="mt-4 text-white mm">Your Balance :  <span style={{ fontSize: '14px', fontWeight: '600', marginLeft: '10px' }}>{balance} SOL</span><br />
+                                </p>
+                                <div className="buy">
+                                    <div className="input-section">
+                                        <label className="mb-3" style={{ fontSize: '12px', fontWeight: '600' }}>AMOUNT</label>
+                                        <div className="input-wrapper position-relative">
+                                            <input
+                                                value={solAmount}
+                                                onChange={handleSolAmountChange}
+                                                className="input"
+                                            />
+                                            <span className="d-flex align-items-center" style={{ position: 'absolute', right: '20px', gap: '6px', fontSize: '14px' }}><img style={{ width: '15px', height: '15px' }} src={Sol}
+                                                alt="solana" />SOL</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="input-section">
+                                        <label className="mb-3" style={{ fontSize: '12px', fontWeight: '600' }}>GET AMOUNT (GITTU)</label>
+                                        <div className="input-wrapper">
+                                            <input
+                                                type="number"
+                                                value={gittuAmount}
+                                                readOnly
+                                                placeholder="Converted amount"
+                                                className="input"
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <button className="buy-now pointer-cursor" onClick={handleBuyNow}>BUY NOW</button>
                             </div>
                         </div>
@@ -731,12 +794,15 @@ function Home() {
                         style={{ textDecorationLine: 'none', color: 'white' }}>Faqs</ScrollLink></button>
                 </div>
             </div >
-            <div className="video-container" style={{ position: 'relative' }}>
+            <div className="video-container" style={{ position: 'relative' }} ref={videoRef}>
                 {!isVideoPlaying ? (
                     <div className="bg-image">
-                        <div className="play-button" onClick={handlePlayClick}>
+                        <div className="play-button" onClick={() => setIsVideoPlaying(true)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" viewBox="0 0 194 194" fill="none">
-                                <path d="M194 97C194 150.572 150.572 194 97 194C43.4284 194 0 150.572 0 97C0 43.4284 43.4284 0 97 0C150.572 0 194 43.4284 194 97Z" fill="#F57D6F" />
+                                <path
+                                    d="M194 97C194 150.572 150.572 194 97 194C43.4284 194 0 150.572 0 97C0 43.4284 43.4284 0 97 0C150.572 0 194 43.4284 194 97Z"
+                                    fill="#F57D6F"
+                                />
                                 <path d="M84 77L120 97.5L84 118V77Z" fill="white" />
                             </svg>
                             <span>Video Presentation</span>
@@ -747,19 +813,19 @@ function Home() {
                         {isLoading && (
                             <div className="bg-image">
                                 <div className="loader m-auto" style={{ position: 'absolute', top: '45%', left: '50%' }}>
-                                    <div className="spinner" ></div>
+                                    <div className="spinner"></div>
                                 </div>
                             </div>
                         )}
                         <iframe
-                            src="https://player.vimeo.com/video/44309170"
+                            src="https://player.vimeo.com/video/44309170?autoplay=1" // Autoplay video when iframe loads
                             width="100%"
                             height="100%"
                             frameBorder="0"
                             allow="autoplay; fullscreen"
                             allowFullScreen
                             title="Video Presentation"
-                            onLoad={handleVideoLoad} // Handle when the video is fully loaded
+                            onLoad={handleVideoLoad} // Hide loader when video is fully loaded
                         ></iframe>
                     </div>
                 )}

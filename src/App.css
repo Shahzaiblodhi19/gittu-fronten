@@ -12,7 +12,7 @@ body {
 }
 
 .app-section {
-  padding-top: 35px;
+  padding-top: 5px;
   overflow: hidden;
   background-color: #0B0C12;
   height: 100%;
@@ -22,7 +22,7 @@ body {
 .slick-list {
   max-width: 85%;
   margin: auto !important;
-  width: 100%;
+  width: 100%;  
 }
 
 .container {
@@ -52,6 +52,47 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.buy {
+  margin-top: 30px;
+  color: #fff;
+  max-width: 400px;
+}
+
+/* Section for each input group */
+.input-section {
+  margin-bottom: 20px;
+}
+/* Wrapper around the input and currency symbol */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the input fields */
+.input {
+  flex: 1;
+  pad: 13px;
+  margin-right: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Style for the currency text (SOL / Gittu) */
+.currency-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Loading text styling */
+.loading-text {
+  color: #fff;
+  text-align: center;
+}
+
 /* Apply a black background when the user scrolls down */
 .header.scrolled {
   padding: 45px 50px;
@@ -73,22 +114,27 @@ body {
   cursor: pointer;
 }
 
-.wallet-btn {
-  margin: 0 20px;
-  color: #FFF;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: normal;
-  border: none;
-  padding: 15px 25px;
+.mm {
+  width: auto;
+}
+
+.wallet-adapter-button.wallet-adapter-button-trigger {
+  margin: 0 20px !important;
+  color: #FFF !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  background-image: none !important;
+  text-transform: uppercase !important;
+  line-height: normal !important;
+  border: none !important;
+  padding: 15px 25px !important;
   margin-right: 0 !important;
-  border-radius: 25px;
-  font-size: 13px;
+  border-radius: 25px !important;
+  font-size: 13px !important;
   background-color: rgba(255, 255, 255, 0.15) !important;
-  backdrop-filter: blur(7.5px);
-  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(7.5px) !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .wallet-adapter-button-trigger {
@@ -172,7 +218,7 @@ body {
   font-family: Outfit;
   font-size: 16px;
   font-style: normal;
-  margin-top: 28px;
+  margin-top: 20px;
   font-weight: 600;
   line-height: normal;
   text-transform: uppercase;
@@ -273,7 +319,7 @@ body {
   padding: 0 !important;
   width: 600px;
   /* Lower z-index to be behind */
-  height: 729px;
+  height: 959px;
   right: 0;
 }
 
@@ -282,6 +328,10 @@ body {
 }
 
 @media (max-width: 1224px) {
+  .mm {
+    width: fit-content !important;
+  }
+
   .right-hid {
     display: none !important;
   }
@@ -373,6 +423,10 @@ body {
     margin-top: 70px;
     position: relative;
     width: 100%;
+  }
+
+  .hid11 {
+    display: flex !important;
   }
 }
 
@@ -661,6 +715,7 @@ body {
   .overlay-img {
     margin-top: 10px;
   }
+
 }
 
 @media (max-width: 690px) {
@@ -759,6 +814,9 @@ body {
 }
 
 @media (max-width: 410px) {
+  .buy{
+    width: 100% !important;
+  }
   .container {
     padding: 0 25px;
   }
@@ -996,6 +1054,8 @@ body {
   .hid {
     display: block !important;
   }
+
+
 }
 
 @media (max-width: 480px) {
@@ -1506,7 +1566,7 @@ input {
   }
 }
 
-.hid2 {
+.mhm button {
   display: none;
 }
 
@@ -1525,6 +1585,10 @@ input {
 @media (max-width: 1224px) {
   .table-cell {
     margin-left: calc(-170px + 14vw) !important;
+  }
+
+  .mhm button {
+    display: flex !important;
   }
 }
 
@@ -1600,19 +1664,12 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
   }
 
 
 
   .header .nav button {
     margin-left: 0 !important;
-  }
-
-  .header {
-    flex-direction: column !important;
-    gap: 20px !important;
-    align-items: flex-start !important;
   }
 
   .roadmap-container {
