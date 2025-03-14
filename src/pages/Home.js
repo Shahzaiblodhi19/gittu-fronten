@@ -556,6 +556,8 @@ function Home() {
                                 </div>
                                 <p className="mt-4 text-white mm">1 GITTU = 0.001 USD <br />
                                     NEXT STAGE = 0.002 USD</p>
+                                <p className="mt-4 text-white mm">Your Balance : {balance}<br />
+                                    </p>
                                 <button className="buy-now pointer-cursor" onClick={handleBuyNow}>BUY NOW</button>
                             </div>
                         </div>
