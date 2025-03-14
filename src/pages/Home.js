@@ -91,7 +91,7 @@ function Home() {
 
             // const adm = await getAdmin(wallet);
             // setAdmin(adm);
-
+            console.log("wallet:", wallet.publicKey.toString());
             const balance1 = await connection.getBalance(wallet.publicKey);
             console.log("balance1:", balance1);
             setWalletBalance(balance1 / 10 ** SOL_DECIMALS);
