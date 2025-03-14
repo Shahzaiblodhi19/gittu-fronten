@@ -22,30 +22,33 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Link } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import * as anchor from '@project-serum/anchor';
 
-// import {
-//     SOLANA_HOST,
-//     getAdmin,
-//     depositAltToken,
-//     claimAltToken,
-//     claimSol,
-//     buyToken,
-//     updateGlobalState,
-//     getStateInitialized,
-//     getTotalSuplyToken,
-//     getTokenDecimal,
-//     createGlobalState,
-//     createTokenAccount,
-//     getPrice,
-//     getMaxAmount,
-//     showToast,
-//     getVaultKey,
-//     getSoldInfo,
-//     depositRealToken,
-//     claimRealToken,
-//     swapToken,
-//     getTokenFromBalance,
-// } from "./presaleweb3/web3";
+import {
+    SOLANA_HOST,
+    getAdmin,
+    depositAltToken,
+    claimAltToken,
+    claimSol,
+    buyToken,
+    updateGlobalState,
+    getStateInitialized,
+    getTotalSuplyToken,
+    getTokenDecimal,
+    createGlobalState,
+    createTokenAccount,
+    getPrice,
+    getMaxAmount,
+    showToast,
+    getVaultKey,
+    getSoldInfo,
+    depositRealToken,
+    claimRealToken,
+    swapToken,
+    getTokenFromBalance,
+} from "./web3/web3";
+
+const connection = new anchor.web3.Connection(SOLANA_HOST);
 
 // Register chart.js elements
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -68,6 +71,45 @@ function Home() {
 
     const wallet = useWallet();
 
+    useEffect(() => {
+        fetchBalance();
+    }, [connection, wallet])
+
+    const fetchBalance = async () => {
+        try {
+            if (!wallet || !wallet.publicKey) {
+                // setAdmin(false);
+                return;
+            }
+
+            // setMaxAmount(MAX_VAL);
+            // const stateInit = await getStateInitialized(wallet);
+
+            // setIsState(!!stateInit);
+
+            // const adm = await getAdmin(wallet);
+            // setAdmin(adm);
+
+            // const balance1 = await connection.getBalance(wallet.publicKey);
+            // setWalletBalance(balance1 / 10 ** SOL_DECIMALS);
+
+            // const tokenAccount = await getAssociatedTokenAddress(aSEC, wallet.publicKey);
+            // const accountInfo = await getAccount(connection, tokenAccount);
+            // setTokenBalance(Number(accountInfo.amount) / 10 ** SEC_DECIMALS);
+
+            // const sold_amount = await getSoldInfo(wallet);
+            // setTotalAmount(sold_amount);
+
+            // const priceSEC = await getPrice(wallet);
+
+            // if (priceSEC)
+            //     onSetTokenPrice(priceSEC);
+
+        } catch (error) {
+            console.error("Error fetching balance:", error);
+        }
+    }
+
     const handlePlayClick = () => {
         setIsLoading(true); // Start loading when the play button is clicked
         setIsVideoPlaying(true); // Start playing the video
@@ -81,7 +123,7 @@ function Home() {
     const [installedWallets, setInstalledWallets] = useState([]);
 
     useEffect(() => {
-        console.log("wallet:", wallet);
+        // console.log("wallet:", wallet.publicKey.toString());
         const wallets = [];
         // if (window.ethereum) {
         //     wallets.push({
@@ -166,10 +208,9 @@ function Home() {
         return () => clearInterval(interval);
     }, []);
 
-
     const handleBuyNow = async () => {
         console.log("click buy button")
-        console.log("wallet: ", wallet.publicKey.toString());
+        // console.log("wallet: ", wallet.publicKey.toString());
         if (wallet.publicKey.toString() === "" || wallet.publicKey.toString() === null) {
             alert("Please connect your wallet first!");
         }
@@ -206,7 +247,6 @@ function Home() {
     };
 
     const percentage = (saleProgress / totalSupply) * 100;
-
 
     const handleCopyReferralLink = () => {
         navigator.clipboard.writeText(`gittu-ebon.vercel.app/referral?user=286254`);
@@ -446,7 +486,7 @@ function Home() {
                             </>
                         )}
                         <div className="d-flex align-items-center" style={{ gap: '18px' }}>
-                            <WalletMultiButton className="wallet-btn hid2" />
+                            <WalletMultiButton className="wallet-btn hid" />
                             {/* {walletAddress ? (
                                 <button className="wallet-btn hid2  align-items-center" style={{ gap: '8px' }} onClick={() => setIsModalOpen(true)}>
                                     {walletAddress.slice(0, 7)}...{walletAddress.slice(-4)}
@@ -486,27 +526,16 @@ function Home() {
                             smooth={true}  // Enable smooth scrolling
                             duration={500} // Duration of the scroll (in ms)
                             style={{ textDecorationLine: 'none', color: 'white' }}>Faqs</ScrollLink></button>
-                        <WalletMultiButton />
-                        {/* {walletAddress ? (
-                            <button className="wallet-btn hid1 d-flex align-items-center" style={{ gap: '8px' }} onClick={() => setIsModalOpen(true)}>
-                                {walletAddress.slice(0, 7)}...{walletAddress.slice(-4)}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 32 36" fill="none">
-                                    <path d="M17.6142 26.3391C16.7214 27.218 15.2714 27.218 14.3785 26.3391L2.94996 15.0891C2.0571 14.2102 2.0571 12.7828 2.94996 11.9039C3.84282 11.025 5.29282 11.025 6.18568 11.9039L16 21.5648L25.8142 11.9109C26.7071 11.032 28.1571 11.032 29.05 11.9109C29.9428 12.7898 29.9428 14.2172 29.05 15.0961L17.6214 26.3461L17.6142 26.3391Z" fill="white" />
-                                </svg>
-                            </button>
-                        ) : (
-                            <button className="wallet-btn hid1" onClick={() => setIsModalOpen(true)}>Connect Wallet</button>
-                        )} */}
-                        {/* <button onClick={() => setResponsiveModal(!ResponsiveModal)} className="toggle-btn hidd" style={{ display: 'none' }}><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 80 80" fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 22.5C10 21.837 10.2634 21.2011 10.7322 20.7322C11.2011 20.2634 11.837 20 12.5 20H67.5C68.163 20 68.7989 20.2634 69.2678 20.7322C69.7366 21.2011 70 21.837 70 22.5C70 23.163 69.7366 23.7989 69.2678 24.2678C68.7989 24.7366 68.163 25 67.5 25H12.5C11.837 25 11.2011 24.7366 10.7322 24.2678C10.2634 23.7989 10 23.163 10 22.5ZM10 40C10 39.337 10.2634 38.7011 10.7322 38.2322C11.2011 37.7634 11.837 37.5 12.5 37.5H67.5C68.163 37.5 68.7989 37.7634 69.2678 38.2322C69.7366 38.7011 70 39.337 70 40C70 40.663 69.7366 41.2989 69.2678 41.7678C68.7989 42.2366 68.163 42.5 67.5 42.5H12.5C11.837 42.5 11.2011 42.2366 10.7322 41.7678C10.2634 41.2989 10 40.663 10 40ZM37.5 57.5C37.5 56.837 37.7634 56.2011 38.2322 55.7322C38.7011 55.2634 39.337 55 40 55H67.5C68.163 55 68.7989 55.2634 69.2678 55.7322C69.7366 56.2011 70 56.837 70 57.5C70 58.163 69.7366 58.7989 69.2678 59.2678C68.7989 59.7366 68.163 60 67.5 60H40C39.337 60 38.7011 59.7366 38.2322 59.2678C37.7634 58.7989 37.5 58.163 37.5 57.5Z" fill="white" />
-                        </svg></button> */}
+                        <WalletMultiButton className="wallet-btn hid" />
                     </div>
                 </header>
                 <div className="container" style={{ paddingTop: '110px' }}>
                     <div className="row">
                         <div className="content col-xl-7 col-12">
-                            <img style={{ position: 'absolute', left: '-30px', top: '24px', height: '95%' }} src={bg_part} alt="part-bg" />
-                            <div className="sale-details w-100">
+                            <img style={{ position: 'absolute', left: '-30px', top: '24px', height: '95%' }} className="" src={bg_part} alt="part-bg" />
+                            {/* , zIndex:"0"  */}
+                            <div className="sale-details w-100" >
+                                {/* style={{zIndex:9999}} */}
                                 <h1>Invest in the  <img className="mx-3 mb-1 i1" src={head1} alt="" /> <br /> </h1>
                                 <h1 className="mt-3"><span style={{ color: '#65EA88' }} >Future </span> of <img className="mx-2 i2" src={head2} alt="" />  Finance</h1>
                                 <p className="par ">Buy tokens now and reap the benefits of the blockchain revolution!</p>
@@ -524,7 +553,7 @@ function Home() {
                                 </div>
                                 <p className="mt-4 text-white mm">1 GITTU = 0.001 USD <br />
                                     NEXT STAGE = 0.002 USD</p>
-                                <button className="buy-now z-[30000]" onClick={handleBuyNow}>BUY NOW</button>
+                                <button className="buy-now pointer-cursor" onClick={handleBuyNow}>BUY NOW</button>
                             </div>
                         </div>
                         <div className="col-xl-5 col-12">
@@ -586,12 +615,7 @@ function Home() {
                                             <img src={wallet.icon} alt={wallet.name} width="27px" height="27px" /> {wallet.name}
                                         </button>
                                     ))}
-                                    {/* <h3 className="subtitle2">Recommended</h3>
-                                    <button onClick={() => handleSelectWallet("WalletConnect")}><img style={{ borderRadius: '5px' }} src={`data:image/svg+xml,<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">%0A<rect width="28" height="28" fill="%233B99FC"/>%0A<path d="M8.38969 10.3739C11.4882 7.27538 16.5118 7.27538 19.6103 10.3739L19.9832 10.7468C20.1382 10.9017 20.1382 11.1529 19.9832 11.3078L18.7076 12.5835C18.6301 12.6609 18.5045 12.6609 18.4271 12.5835L17.9139 12.0703C15.7523 9.9087 12.2477 9.9087 10.0861 12.0703L9.53655 12.6198C9.45909 12.6973 9.3335 12.6973 9.25604 12.6198L7.98039 11.3442C7.82547 11.1893 7.82547 10.9381 7.98039 10.7832L8.38969 10.3739ZM22.2485 13.012L23.3838 14.1474C23.5387 14.3023 23.5387 14.5535 23.3838 14.7084L18.2645 19.8277C18.1096 19.9827 17.8584 19.9827 17.7035 19.8277C17.7035 19.8277 17.7035 19.8277 17.7035 19.8277L14.0702 16.1944C14.0314 16.1557 13.9686 16.1557 13.9299 16.1944C13.9299 16.1944 13.9299 16.1944 13.9299 16.1944L10.2966 19.8277C10.1417 19.9827 9.89053 19.9827 9.73561 19.8278C9.7356 19.8278 9.7356 19.8277 9.7356 19.8277L4.61619 14.7083C4.46127 14.5534 4.46127 14.3022 4.61619 14.1473L5.75152 13.012C5.90645 12.857 6.15763 12.857 6.31255 13.012L9.94595 16.6454C9.98468 16.6841 10.0475 16.6841 10.0862 16.6454C10.0862 16.6454 10.0862 16.6454 10.0862 16.6454L13.7194 13.012C13.8743 12.857 14.1255 12.857 14.2805 13.012C14.2805 13.012 14.2805 13.012 14.2805 13.012L17.9139 16.6454C17.9526 16.6841 18.0154 16.6841 18.0541 16.6454L21.6874 13.012C21.8424 12.8571 22.0936 12.8571 22.2485 13.012Z" fill="white"/>%0A</svg>%0A`} alt='WalletConnect' width="27px" height="27px" /> WalletConnect</button>
-                                    <button onClick={() => handleSelectWallet("Coinbase Wallet")}><img style={{ borderRadius: '5px' }} src={`data:image/svg+xml,<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">%0A<rect width="28" height="28" fill="%232C5FF6"/>%0A<path fill-rule="evenodd" clip-rule="evenodd" d="M14 23.8C19.4124 23.8 23.8 19.4124 23.8 14C23.8 8.58761 19.4124 4.2 14 4.2C8.58761 4.2 4.2 8.58761 4.2 14C4.2 19.4124 8.58761 23.8 14 23.8ZM11.55 10.8C11.1358 10.8 10.8 11.1358 10.8 11.55V16.45C10.8 16.8642 11.1358 17.2 11.55 17.2H16.45C16.8642 17.2 17.2 16.8642 17.2 16.45V11.55C17.2 11.1358 16.8642 10.8 16.45 10.8H11.55Z" fill="white"/>%0A</svg>%0A`} alt='Coinbase Wallet' width="27px" height="27px" /> Coinbase Wallet</button>
-                                    <button onClick={() => handleSelectWallet("Rainbow")}><img style={{ borderRadius: '5px' }} src={`data:image/svg+xml,<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">%0A<rect width="120" height="120" fill="url(%23paint0_linear_62_329)"/>%0A<path d="M20 38H26C56.9279 38 82 63.0721 82 94V100H94C97.3137 100 100 97.3137 100 94C100 53.1309 66.8691 20 26 20C22.6863 20 20 22.6863 20 26V38Z" fill="url(%23paint1_radial_62_329)"/>%0A<path d="M84 94H100C100 97.3137 97.3137 100 94 100H84V94Z" fill="url(%23paint2_linear_62_329)"/>%0A<path d="M26 20L26 36H20L20 26C20 22.6863 22.6863 20 26 20Z" fill="url(%23paint3_linear_62_329)"/>%0A<path d="M20 36H26C58.0325 36 84 61.9675 84 94V100H66V94C66 71.9086 48.0914 54 26 54H20V36Z" fill="url(%23paint4_radial_62_329)"/>%0A<path d="M68 94H84V100H68V94Z" fill="url(%23paint5_linear_62_329)"/>%0A<path d="M20 52L20 36L26 36L26 52H20Z" fill="url(%23paint6_linear_62_329)"/>%0A<path d="M20 62C20 65.3137 22.6863 68 26 68C40.3594 68 52 79.6406 52 94C52 97.3137 54.6863 100 58 100H68V94C68 70.804 49.196 52 26 52H20V62Z" fill="url(%23paint7_radial_62_329)"/>%0A<path d="M52 94H68V100H58C54.6863 100 52 97.3137 52 94Z" fill="url(%23paint8_radial_62_329)"/>%0A<path d="M26 68C22.6863 68 20 65.3137 20 62L20 52L26 52L26 68Z" fill="url(%23paint9_radial_62_329)"/>%0A<defs>%0A<linearGradient id="paint0_linear_62_329" x1="60" y1="0" x2="60" y2="120" gradientUnits="userSpaceOnUse">%0A<stop stop-color="%23174299"/>%0A<stop offset="1" stop-color="%23001E59"/>%0A</linearGradient>%0A<radialGradient id="paint1_radial_62_329" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26 94) rotate(-90) scale(74)">%0A<stop offset="0.770277" stop-color="%23FF4000"/>%0A<stop offset="1" stop-color="%238754C9"/>%0A</radialGradient>%0A<linearGradient id="paint2_linear_62_329" x1="83" y1="97" x2="100" y2="97" gradientUnits="userSpaceOnUse">%0A<stop stop-color="%23FF4000"/>%0A<stop offset="1" stop-color="%238754C9"/>%0A</linearGradient>%0A<linearGradient id="paint3_linear_62_329" x1="23" y1="20" x2="23" y2="37" gradientUnits="userSpaceOnUse">%0A<stop stop-color="%238754C9"/>%0A<stop offset="1" stop-color="%23FF4000"/>%0A</linearGradient>%0A<radialGradient id="paint4_radial_62_329" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26 94) rotate(-90) scale(58)">%0A<stop offset="0.723929" stop-color="%23FFF700"/>%0A<stop offset="1" stop-color="%23FF9901"/>%0A</radialGradient>%0A<linearGradient id="paint5_linear_62_329" x1="68" y1="97" x2="84" y2="97" gradientUnits="userSpaceOnUse">%0A<stop stop-color="%23FFF700"/>%0A<stop offset="1" stop-color="%23FF9901"/>%0A</linearGradient>%0A<linearGradient id="paint6_linear_62_329" x1="23" y1="52" x2="23" y2="36" gradientUnits="userSpaceOnUse">%0A<stop stop-color="%23FFF700"/>%0A<stop offset="1" stop-color="%23FF9901"/>%0A</linearGradient>%0A<radialGradient id="paint7_radial_62_329" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26 94) rotate(-90) scale(42)">%0A<stop offset="0.59513" stop-color="%2300AAFF"/>%0A<stop offset="1" stop-color="%2301DA40"/>%0A</radialGradient>%0A<radialGradient id="paint8_radial_62_329" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(51 97) scale(17 45.3333)">%0A<stop stop-color="%2300AAFF"/>%0A<stop offset="1" stop-color="%2301DA40"/>%0A</radialGradient>%0A<radialGradient id="paint9_radial_62_329" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23 69) rotate(-90) scale(17 322.37)">%0A<stop stop-color="%2300AAFF"/>%0A<stop offset="1" stop-color="%2301DA40"/>%0A</radialGradient>%0A</defs>%0A</svg>%0A`} alt='Rainbow' width="27px" height="27px" /> Rainbow</button>
-                                    <h3 className="subtitle2">Others</h3>
-                                    <button onClick={() => handleSelectWallet("Trust Wallet")}><img style={{ borderRadius: '5px' }} src={`data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" width="28" height="28" viewBox="0 0 28 28"><path fill="%23fff" d="M0 0h28v28H0z"/><path fill="%230500FF" d="M6 7.583 13.53 5v17.882C8.15 20.498 6 15.928 6 13.345V7.583Z"/><path fill="url(%23a)" d="M22 7.583 13.53 5v17.882c6.05-2.384 8.47-6.954 8.47-9.537V7.583Z"/><defs><linearGradient id="a" x1="19.768" x2="14.072" y1="3.753" y2="22.853" gradientUnits="userSpaceOnUse"><stop offset=".02" stop-color="%2300F"/><stop offset=".08" stop-color="%230094FF"/><stop offset=".16" stop-color="%2348FF91"/><stop offset=".42" stop-color="%230094FF"/><stop offset=".68" stop-color="%230038FF"/><stop offset=".9" stop-color="%230500FF"/></linearGradient></defs></svg>%0A`} alt='Trust Wallet' width="27px" height="27px" /> Trust Wallet</button> */}
+
                                 </div>
                                 <div className="d-flex align-items-center justify-content-between w-100 mt-2" >
                                     <h2 className="subtitle2">New to Etherium Wallet?</h2>
