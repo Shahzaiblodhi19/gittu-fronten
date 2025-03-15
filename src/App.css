@@ -1992,3 +1992,9 @@ button.create-blog-btn:hover {
   stroke: #00E676;
   text-shadow: 0 0 8px #00E676, 0 0 10px #00E676, 0 0 12px #00E676, 0 0 14px #00E676;
 }
+.error-icon {
+  fill: #F44336 ; /* Bright Neon Green */
+  stroke: #F44336 ;
+  text-shadow: 0 0 8px #F44336 , 0 0 10px #F44336 , 0 0 12px #F44336 , 0 0 14px #F44336 ;
+}
+
