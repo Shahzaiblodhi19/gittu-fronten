@@ -1986,3 +1986,9 @@ button.create-blog-btn:hover {
   height: 100%;
   object-fit: cover;
 }
+
+.success-icon {
+  fill: #00E676; /* Bright Neon Green */
+  stroke: #00E676;
+  text-shadow: 0 0 8px #00E676, 0 0 10px #00E676, 0 0 12px #00E676, 0 0 14px #00E676;
+}
