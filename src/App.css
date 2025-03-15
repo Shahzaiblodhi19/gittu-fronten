@@ -22,7 +22,7 @@ body {
 .slick-list {
   max-width: 85%;
   margin: auto !important;
-  width: 100%;  
+  width: 100%;
 }
 
 .container {
@@ -62,6 +62,7 @@ body {
 .input-section {
   margin-bottom: 20px;
 }
+
 /* Wrapper around the input and currency symbol */
 .input-wrapper {
   display: flex;
@@ -263,12 +264,70 @@ body {
 }
 
 .ReactModal__Overlay {
-  background-color: #0d0b0b93 !important;
-  backdrop-filter: blur(4px) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   align-items: center;
   z-index: 100;
   display: flex;
+  opacity: 0;
+  /* Initially hidden */
+  transition: opacity 0.3s ease-in-out;
+  /* Smooth fade-in transition */
 }
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  opacity: 1;
+  /* When modal opens, overlay fades in */
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--before-close {
+  opacity: 0;
+  /* When modal closes, overlay fades out */
+}
+
+/* Modal Styles */
+.modals {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1050;
+  max-width: 400px;
+  border-radius: 10px;
+  background: #10141f;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+  flex: 1 1;
+  color: #fff;
+  padding: 15px 20px 10px 20px;
+  margin: auto;
+  z-index: 1000;
+  transform: scale(0.9);
+  /* Initial scale for smooth scaling effect */
+  opacity: 0;
+  /* Initially hidden */
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  /* Smooth scaling and fade-in transition */
+}
+
+.modals.ReactModal__Content--after-open {
+  opacity: 1;
+  /* When modal opens, it becomes visible */
+  transform: scale(1);
+  /* Scale to normal size */
+}
+
+.modals.ReactModal__Content--before-close {
+  opacity: 0;
+  /* When modal closes, it fades out */
+  transform: scale(0.9);
+  /* Scale down when closing */
+}
+
 
 .referral-link button {
   padding: 4px 22px;
@@ -499,24 +558,6 @@ body {
 .refferal-section {
   background-color: #030D43;
   padding-bottom: 60px;
-}
-
-/* Modal Styles */
-.modals {
-  background-color: #1A1B1F;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  color: #fff;
-  padding: 15px 20px 10px 20px;
-  align-items: center;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.32);
-  min-width: 368px;
-  width: 368px;
-  margin: auto;
-  z-index: 1000;
 }
 
 .socials {
@@ -814,9 +855,10 @@ body {
 }
 
 @media (max-width: 410px) {
-  .buy{
+  .buy {
     width: 100% !important;
   }
+
   .container {
     padding: 0 25px;
   }
