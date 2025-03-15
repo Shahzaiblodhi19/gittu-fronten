@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Web3 from "web3";
 import ReactModal from "react-modal";
 import Logo from '../assets/logo.png';
 import tel_ico from '../assets/tel-ico.svg';
@@ -7,7 +6,6 @@ import dis_ico from '../assets/dis-ico.svg';
 import twi_ico from '../assets/twi-ico.svg';
 import o_ico from '../assets/o-ico.svg';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import i_ico from '../assets/i-ico.svg';
 import lin_ico from '../assets/lin-ico.svg';
 import { useLocation } from "react-router-dom";  // For getting the current path
