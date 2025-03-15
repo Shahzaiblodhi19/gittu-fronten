@@ -64,10 +64,6 @@ function Home() {
     const [bonus, setBonus] = useState(20);
     const [countdown, setCountdown] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalStage, setModalStage] = useState("select"); // ["select", "opening", "connecting", "connected"]
-    const [selectedWallet, setSelectedWallet] = useState(null);
-    const [walletAddress, setWalletAddress] = useState(null);
-
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const videoRef = useRef(null);
@@ -142,84 +138,6 @@ function Home() {
             console.error("Error fetching balance:", error);
         }
     }
-
-    // Detect Installed Wallets
-    const [installedWallets, setInstalledWallets] = useState([]);
-
-    useEffect(() => {
-        // console.log("wallet:", wallet.publicKey.toString());
-        const wallets = [];
-        // if (window.ethereum) {
-        //     wallets.push({
-        //         name: "MetaMask", icon: `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNSAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMyLjcwNzcgMzIuNzUyMkwyNS4xNjg4IDMwLjUxNzRMMTkuNDgzMyAzMy45MDA4TDE1LjUxNjcgMzMuODk5MUw5LjgyNzkzIDMwLjUxNzRMMi4yOTIyNSAzMi43NTIyTDAgMjUuMDQ4OUwyLjI5MjI1IDE2LjQ5OTNMMCA5LjI3MDk0TDIuMjkyMjUgMC4zMTIyNTZMMTQuMDY3NCA3LjMxNTU0SDIwLjkzMjZMMzIuNzA3NyAwLjMxMjI1NkwzNSA5LjI3MDk0TDMyLjcwNzcgMTYuNDk5M0wzNSAyNS4wNDg5TDMyLjcwNzcgMzIuNzUyMloiIGZpbGw9IiNGRjVDMTYiLz4KPHBhdGggZD0iTTIuMjkzOTUgMC4zMTIyNTZMMTQuMDY5MSA3LjMyMDQ3TDEzLjYwMDggMTIuMTMwMUwyLjI5Mzk1IDAuMzEyMjU2WiIgZmlsbD0iI0ZGNUMxNiIvPgo8cGF0aCBkPSJNOS44Mjk1OSAyNS4wNTIyTDE1LjAxMDYgMjguOTgxMUw5LjgyOTU5IDMwLjUxNzVWMjUuMDUyMloiIGZpbGw9IiNGRjVDMTYiLz4KPHBhdGggZD0iTTE0LjU5NjYgMTguNTU2NUwxMy42MDA5IDEyLjEzMzNMNy4yMjY5MiAxNi41MDA5TDcuMjIzNjMgMTYuNDk5M1YxNi41MDI1TDcuMjQzMzUgMjAuOTk4M0w5LjgyODA5IDE4LjU1NjVIOS44Mjk3NEgxNC41OTY2WiIgZmlsbD0iI0ZGNUMxNiIvPgo8cGF0aCBkPSJNMzIuNzA3NyAwLjMxMjI1NkwyMC45MzI2IDcuMzIwNDdMMjEuMzk5MyAxMi4xMzAxTDMyLjcwNzcgMC4zMTIyNTZaIiBmaWxsPSIjRkY1QzE2Ii8+CjxwYXRoIGQ9Ik0yNS4xNzIyIDI1LjA1MjJMMTkuOTkxMiAyOC45ODExTDI1LjE3MjIgMzAuNTE3NVYyNS4wNTIyWiIgZmlsbD0iI0ZGNUMxNiIvPgo8cGF0aCBkPSJNMjcuNzc2NiAxNi41MDI1SDI3Ljc3ODNIMjcuNzc2NlYxNi40OTkzTDI3Ljc3NSAxNi41MDA5TDIxLjQwMSAxMi4xMzMzTDIwLjQwNTMgMTguNTU2NUgyNS4xNzIyTDI3Ljc1ODYgMjAuOTk4M0wyNy43NzY2IDE2LjUwMjVaIiBmaWxsPSIjRkY1QzE2Ii8+CjxwYXRoIGQ9Ik05LjgyNzkzIDMwLjUxNzVMMi4yOTIyNSAzMi43NTIyTDAgMjUuMDUyMkg5LjgyNzkzVjMwLjUxNzVaIiBmaWxsPSIjRTM0ODA3Ii8+CjxwYXRoIGQ9Ik0xNC41OTQ3IDE4LjU1NDlMMTYuMDM0MSAyNy44NDA2TDE0LjAzOTMgMjIuNjc3N0w3LjIzOTc1IDIwLjk5ODRMOS44MjYxMyAxOC41NTQ5SDE0LjU5M0gxNC41OTQ3WiIgZmlsbD0iI0UzNDgwNyIvPgo8cGF0aCBkPSJNMjUuMTcyMSAzMC41MTc1TDMyLjcwNzggMzIuNzUyMkwzNS4wMDAxIDI1LjA1MjJIMjUuMTcyMVYzMC41MTc1WiIgZmlsbD0iI0UzNDgwNyIvPgo8cGF0aCBkPSJNMjAuNDA1MyAxOC41NTQ5TDE4Ljk2NTggMjcuODQwNkwyMC45NjA3IDIyLjY3NzdMMjcuNzYwMiAyMC45OTg0TDI1LjE3MjIgMTguNTU0OUgyMC40MDUzWiIgZmlsbD0iI0UzNDgwNyIvPgo8cGF0aCBkPSJNMCAyNS4wNDg4TDIuMjkyMjUgMTYuNDk5M0g3LjIyMTgzTDcuMjM5OTEgMjAuOTk2N0wxNC4wMzk0IDIyLjY3NkwxNi4wMzQzIDI3LjgzODlMMTUuMDA4OSAyOC45NzZMOS44Mjc5MyAyNS4wNDcySDBWMjUuMDQ4OFoiIGZpbGw9IiNGRjhENUQiLz4KPHBhdGggZD0iTTM1LjAwMDEgMjUuMDQ4OEwzMi43MDc4IDE2LjQ5OTNIMjcuNzc4M0wyNy43NjAyIDIwLjk5NjdMMjAuOTYwNyAyMi42NzZMMTguOTY1OCAyNy44Mzg5TDE5Ljk5MTIgMjguOTc2TDI1LjE3MjIgMjUuMDQ3MkgzNS4wMDAxVjI1LjA0ODhaIiBmaWxsPSIjRkY4RDVEIi8+CjxwYXRoIGQ9Ik0yMC45MzI1IDcuMzE1NDNIMTcuNDk5OUgxNC4wNjczTDEzLjYwMDYgMTIuMTI1MUwxNi4wMzQyIDI3LjgzNEgxOC45NjU2TDIxLjQwMDggMTIuMTI1MUwyMC45MzI1IDcuMzE1NDNaIiBmaWxsPSIjRkY4RDVEIi8+CjxwYXRoIGQ9Ik0yLjI5MjI1IDAuMzEyMjU2TDAgOS4yNzA5NEwyLjI5MjI1IDE2LjQ5OTNINy4yMjE4M0wxMy41OTkxIDEyLjEzMDFMMi4yOTIyNSAwLjMxMjI1NloiIGZpbGw9IiM2NjE4MDAiLz4KPHBhdGggZD0iTTEzLjE3IDIwLjQxOTlIMTAuOTM2OUw5LjcyMDk1IDIxLjYwNjJMMTQuMDQwOSAyMi42NzI3TDEzLjE3IDIwLjQxODJWMjAuNDE5OVoiIGZpbGw9IiM2NjE4MDAiLz4KPHBhdGggZD0iTTMyLjcwNzcgMC4zMTIyNTZMMzQuOTk5OSA5LjI3MDk0TDMyLjcwNzcgMTYuNDk5M0gyNy43NzgxTDIxLjQwMDkgMTIuMTMwMUwzMi43MDc3IDAuMzEyMjU2WiIgZmlsbD0iIzY2MTgwMCIvPgo8cGF0aCBkPSJNMjEuODMzIDIwLjQxOTlIMjQuMDY5NEwyNS4yODUzIDIxLjYwNzlMMjAuOTYwNCAyMi42NzZMMjEuODMzIDIwLjQxODJWMjAuNDE5OVoiIGZpbGw9IiM2NjE4MDAiLz4KPHBhdGggZD0iTTE5LjQ4MTcgMzAuODM2MkwxOS45OTExIDI4Ljk3OTRMMTguOTY1OCAyNy44NDIzSDE2LjAzMjdMMTUuMDA3MyAyOC45Nzk0TDE1LjUxNjcgMzAuODM2MiIgZmlsbD0iIzY2MTgwMCIvPgo8cGF0aCBkPSJNMTkuNDgxNiAzMC44MzU5VjMzLjkwMjFIMTUuNTE2NlYzMC44MzU5SDE5LjQ4MTZaIiBmaWxsPSIjQzBDNENEIi8+CjxwYXRoIGQ9Ik05LjgyOTU5IDMwLjUxNDJMMTUuNTIgMzMuOTAwOFYzMC44MzQ2TDE1LjAxMDYgMjguOTc3OEw5LjgyOTU5IDMwLjUxNDJaIiBmaWxsPSIjRTdFQkY2Ii8+CjxwYXRoIGQ9Ik0yNS4xNzIxIDMwLjUxNDJMMTkuNDgxNyAzMy45MDA4VjMwLjgzNDZMMTkuOTkxMSAyOC45Nzc4TDI1LjE3MjEgMzAuNTE0MloiIGZpbGw9IiNFN0VCRjYiLz4KPC9zdmc+Cg==`, key: "MetaMask"
-        //     });
-        // }
-        if (window.solana?.isPhantom) {
-            wallets.push({ name: "Phantom", icon: `data:image/png;base64,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`, key: "Phantom" });
-        }
-        setInstalledWallets(wallets);
-    }, []);
-
-    // Step 1: Open Wallet UI and then Connect
-    const handleSelectWallet = async (wallet) => {
-        console.log("wallet:", wallet)
-        setSelectedWallet(wallet);
-        setModalStage("opening");
-
-        setTimeout(async () => {
-            setModalStage("connecting");
-
-            try {
-                // if (wallet === "MetaMask" && window.ethereum) {
-                //     await window.ethereum.request({
-                //         method: "wallet_requestPermissions",
-                //         params: [{ eth_accounts: {} }],
-                //     });
-                //     const web3 = new Web3(window.ethereum);
-                //     const accounts = await web3.eth.requestAccounts();
-                //     const walletAddress = accounts[0];
-                //     setWalletAddress(walletAddress);
-                //     localStorage.setItem("walletAddress", walletAddress);  // Store wallet address in localStorage
-                //     setModalStage("connected");
-                //     setIsModalOpen(false); // Close the modal immediately after connection
-                // }
-                // else 
-                if (wallet === "Phantom" && window.solana.isPhantom) {
-                    await window.solana.request({ method: "connect" }); // Opens Phantom UI
-                    const response = await window.solana.connect();
-                    const walletAddress = response.publicKey.toString();
-                    setWalletAddress(walletAddress);
-                    localStorage.setItem("walletAddress", walletAddress);  // Store wallet address in localStorage
-                    setModalStage("connected");
-                    setIsModalOpen(false); // Close the modal immediately after connection
-                }
-                else if (wallet === "WalletConnect") {
-                    const provider = new WalletConnectProvider({
-                        rpc: { 1: "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID" }
-                    });
-
-                    await provider.enable(); // Opens WalletConnect QR
-                    const web3 = new Web3(provider);
-                    const accounts = await web3.eth.getAccounts();
-                    const walletAddress = accounts[0];
-                    setWalletAddress(walletAddress);
-                    localStorage.setItem("walletAddress", walletAddress);  // Store wallet address in localStorage
-                    setModalStage("connected");
-                    setIsModalOpen(false); // Close the modal immediately after connection
-                }
-                else {
-                    alert("Please install the selected wallet.");
-                    setModalStage("select");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Connection failed or rejected.");
-                setModalStage("select");
-            }
-        }, 2000); // Simulate delay while opening wallet
-    };
-
-
     // Countdown Timer (63 days, 8 hours)
     useEffect(() => {
         const targetDate = new Date().setDate(new Date().getDate() + 63);
@@ -264,24 +182,6 @@ function Home() {
     const handleCopyReferralLink = () => {
         navigator.clipboard.writeText(`gittu-ebon.vercel.app/referral?user=286254`);
         alert("Referral link copied to clipboard!");
-    };
-
-    const handleDisconnectWallet = () => {
-        setWalletAddress(null);
-        localStorage.removeItem("walletAddress");  // Remove wallet address from localStorage
-        setModalStage("select"); // Reset to "select" so that wallet options are shown
-        setIsModalOpen(false);
-        alert("Wallet disconnected");
-    };
-
-
-    const handleDropdownSelect = (action) => {
-        if (action === "disconnect") {
-            handleDisconnectWallet();
-        } else if (action === "copy") {
-            navigator.clipboard.writeText(walletAddress);
-            alert("Wallet address copied to clipboard!");
-        }
     };
 
     const data = {
@@ -475,8 +375,6 @@ function Home() {
     const [ResponsiveModal, setResponsiveModal] = useState(false)
     const [solAmount, setSolAmount] = useState('0');
     const [gittuAmount, setGittuAmount] = useState('0');
-    const [isLoading2, setIsLoading2] = useState(false);
-
     // Assuming a static conversion rate for SOL to Gittu (1 SOL = 100 GITTU)
     const convertToGittu = (solAmount) => {
         const conversionRate = 100; // Example conversion rate
@@ -495,7 +393,7 @@ function Home() {
         }
     };
     const handleBuyNow = async () => {
-        alert("Successfuly Purchased")
+        setIsModalOpen(!isModalOpen);
     };
 
     return (
@@ -646,98 +544,10 @@ function Home() {
                         onRequestClose={() => setIsModalOpen(false)}
                         className="modals"
                     >
-                        {/* Step 1: Select Wallet */}
-                        {modalStage === "select" && (
-                            <>
-                                <div className="d-flex align-items-center w-100 mb-2 mt-2">
-                                    <h2 className="wal-head">CONNECT A WALLET</h2>
-                                    <button className="w-auto close mt-0" onClick={() => setIsModalOpen(false)} style={{ padding: '11px', borderRadius: '50px' }}><svg aria-hidden="true" fill="none" height="10" viewBox="0 0 10 10" width="10" xmlns="http://www.w3.org/2000/svg"><title>Close</title><path d="M1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L3.58579 5L0.292893 8.29289C-0.0976311 8.68342 -0.0976311 9.31658 0.292893 9.70711C0.683417 10.0976 1.31658 10.0976 1.70711 9.70711L5 6.41421L8.29289 9.70711C8.68342 10.0976 9.31658 10.0976 9.70711 9.70711C10.0976 9.31658 10.0976 8.68342 9.70711 8.29289L6.41421 5L9.70711 1.70711C10.0976 1.31658 10.0976 0.683417 9.70711 0.292893C9.31658 -0.0976311 8.68342 -0.0976311 8.29289 0.292893L5 3.58579L1.70711 0.292893Z" fill="currentColor"></path></svg></button>
-                                </div>
-                                <div className="bn" style={{
-                                    maxHeight: '380px',
-                                    height: 'auto',
-                                    overflowY: 'auto',
-                                    width: '100%',
-                                    scrollbarWidth: 'none',  /* For Firefox */
-                                    msOverflowStyle: 'none'  /* For IE/Edge */
-                                }}>
-                                    <style>
-                                        {`
-                          div::-webkit-scrollbar {
-                           display: none;
-                          }
-        `                }
-                                    </style>
-                                    {installedWallets.length > 0 && <h3 className="subtitle">Installed</h3>}
-                                    {installedWallets.map((wallet) => (
-                                        <button key={wallet.key} onClick={() => handleSelectWallet(wallet.key)}>
-                                            <img src={wallet.icon} alt={wallet.name} width="27px" height="27px" /> {wallet.name}
-                                        </button>
-                                    ))}
-
-                                </div>
-                                <div className="d-flex align-items-center justify-content-between w-100 mt-2" >
-                                    <h2 className="subtitle2">New to Etherium Wallet?</h2>
-                                    <a className="subtitle mt-1" >Learn More</a>
-                                </div>
-                            </>
-                        )}
-
-                        {/* Step 2: Opening Wallet */}
-                        {modalStage === "opening" && (
-                            <>
-                                {/* Display the selected wallet's icon */}
-                                <img
-                                    src={installedWallets.find(wallet => wallet.key === selectedWallet)?.icon || ''}
-                                    className="mt-5 mb-4"
-                                    alt={selectedWallet}
-                                    width="39px"
-                                    height="39px"
-                                />
-                                <h2 style={{ fontSize: '18px', fontWeight: '400' }}>Opening {selectedWallet}...</h2>
-                                <p style={{ fontSize: '14px', color: '#a1a1a1', marginTop: '12px' }}>Please wait while {selectedWallet} opens.</p>
-                                {/* Add a loader at the bottom */}
-                                <div className="loader mb-5">
-                                    <div className="spinner"></div>
-                                </div>
-                            </>
-                        )}
-
-                        {/* Step 3: Connecting */}
-                        {modalStage === "connecting" && (
-                            <>
-                                {/* Display the selected wallet's icon */}
-                                <img
-                                    src={installedWallets.find(wallet => wallet.key === selectedWallet)?.icon || ''}
-                                    className="mt-5 mb-4"
-                                    alt={selectedWallet}
-                                    width="39px"
-                                    height="39px"
-                                />
-                                <h2 style={{ fontSize: '18px', fontWeight: '400' }}>Connecting to {selectedWallet}...</h2>
-                                <p style={{ fontSize: '14px', color: '#a1a1a1', marginTop: '12px' }}>Approve the connection in your wallet.</p>
-                                {/* Add a loader at the bottom */}
-                                <div className="loader mb-5">
-                                    <div className="spinner"></div>
-                                </div>
-                            </>
-                        )}
-                        {/* Step 3: Connecting */}
-                        {modalStage === "connected" && (
-                            <>
-                                <button className="w-auto close mt-0 ml-auto" onClick={() => setIsModalOpen(false)} style={{ marginLeft: 'auto', padding: '11px', borderRadius: '50px' }}><svg aria-hidden="true" fill="none" height="10" viewBox="0 0 10 10" width="10" xmlns="http://www.w3.org/2000/svg"><title>Close</title><path d="M1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L3.58579 5L0.292893 8.29289C-0.0976311 8.68342 -0.0976311 9.31658 0.292893 9.70711C0.683417 10.0976 1.31658 10.0976 1.70711 9.70711L5 6.41421L8.29289 9.70711C8.68342 10.0976 9.31658 10.0976 9.70711 9.70711C10.0976 9.31658 10.0976 8.68342 9.70711 8.29289L6.41421 5L9.70711 1.70711C10.0976 1.31658 10.0976 0.683417 9.70711 0.292893C9.31658 -0.0976311 8.68342 -0.0976311 8.29289 0.292893L5 3.58579L1.70711 0.292893Z" fill="currentColor"></path></svg></button>
-
-                                <div style={{ width: '70px', height: '70px', background: 'rgb(255, 217, 90)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '35px' }}>🤑</div>
-                                {walletAddress && <h2 className="my-3" style={{ fontSize: '18px', fontWeight: '400' }}>{walletAddress.slice(0, 7)}...{walletAddress.slice(-4)}</h2>}
-                                <div className="d-flex align-items-center justify-content-between w-100" style={{ gap: '18px' }}>
-                                    <button className="close" style={{ width: '100%', fontSize: '13px', textAlign: 'center', justifyContent: 'center', borderRadius: '7px', padding: '15px', flexDirection: 'column', gap: '12px' }} onClick={() => handleDropdownSelect("copy")}> <svg fill="none" height="16" viewBox="0 0 17 16" width="17" xmlns="http://www.w3.org/2000/svg"><title>Copy</title><path d="M3.04236 12.3027H4.18396V13.3008C4.18396 14.8525 5.03845 15.7002 6.59705 15.7002H13.6244C15.183 15.7002 16.0375 14.8525 16.0375 13.3008V6.24609C16.0375 4.69434 15.183 3.84668 13.6244 3.84668H12.4828V2.8418C12.4828 1.29688 11.6283 0.442383 10.0697 0.442383H3.04236C1.48376 0.442383 0.629272 1.29004 0.629272 2.8418V9.90332C0.629272 11.4551 1.48376 12.3027 3.04236 12.3027ZM3.23376 10.5391C2.68689 10.5391 2.39294 10.2656 2.39294 9.68457V3.06055C2.39294 2.47949 2.68689 2.21289 3.23376 2.21289H9.8783C10.4252 2.21289 10.7191 2.47949 10.7191 3.06055V3.84668H6.59705C5.03845 3.84668 4.18396 4.69434 4.18396 6.24609V10.5391H3.23376ZM6.78845 13.9365C6.24158 13.9365 5.94763 13.6699 5.94763 13.0889V6.45801C5.94763 5.87695 6.24158 5.61035 6.78845 5.61035H13.433C13.9799 5.61035 14.2738 5.87695 14.2738 6.45801V13.0889C14.2738 13.6699 13.9799 13.9365 13.433 13.9365H6.78845Z" fill="currentColor"></path></svg>
-                                        Copy Address</button>
-                                    <button className="close" style={{ width: '100%', fontSize: '13px', textAlign: 'center', justifyContent: 'center', borderRadius: '7px', padding: '15px', flexDirection: 'column', gap: '12px' }} onClick={() => handleDropdownSelect("disconnect")}>
-                                        <svg fill="none" height="16" viewBox="0 0 18 16" width="18" xmlns="http://www.w3.org/2000/svg"><title>Disconnect</title><path d="M2.67834 15.5908H9.99963C11.5514 15.5908 12.399 14.7432 12.399 13.1777V10.2656H10.6354V12.9863C10.6354 13.5332 10.3688 13.8271 9.78772 13.8271H2.89026C2.3092 13.8271 2.0426 13.5332 2.0426 12.9863V3.15625C2.0426 2.60254 2.3092 2.30859 2.89026 2.30859H9.78772C10.3688 2.30859 10.6354 2.60254 10.6354 3.15625V5.89746H12.399V2.95801C12.399 1.39941 11.5514 0.544922 9.99963 0.544922H2.67834C1.12659 0.544922 0.278931 1.39941 0.278931 2.95801V13.1777C0.278931 14.7432 1.12659 15.5908 2.67834 15.5908ZM7.43616 8.85059H14.0875L15.0924 8.78906L14.566 9.14453L13.6842 9.96484C13.5406 10.1016 13.4586 10.2861 13.4586 10.4844C13.4586 10.8398 13.7321 11.168 14.1217 11.168C14.3199 11.168 14.4635 11.0928 14.6002 10.9561L16.7809 8.68652C16.986 8.48145 17.0543 8.27637 17.0543 8.06445C17.0543 7.85254 16.986 7.64746 16.7809 7.43555L14.6002 5.17285C14.4635 5.03613 14.3199 4.9541 14.1217 4.9541C13.7321 4.9541 13.4586 5.27539 13.4586 5.6377C13.4586 5.83594 13.5406 6.02734 13.6842 6.15723L14.566 6.98438L15.0924 7.33984L14.0875 7.27148H7.43616C7.01917 7.27148 6.65686 7.62012 6.65686 8.06445C6.65686 8.50195 7.01917 8.85059 7.43616 8.85059Z" fill="currentColor"></path></svg>
-                                        Disconnect</button>
-                                </div>
-                            </>
-                        )}
+                        <button className="w-auto close mt-0 ml-auto" onClick={() => setIsModalOpen(false)} style={{ padding: '11px', borderRadius: '50px', marginLeft: 'auto' }}><svg aria-hidden="true" fill="none" height="10" viewBox="0 0 10 10" width="10" xmlns="http://www.w3.org/2000/svg"><title>Close</title><path d="M1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L3.58579 5L0.292893 8.29289C-0.0976311 8.68342 -0.0976311 9.31658 0.292893 9.70711C0.683417 10.0976 1.31658 10.0976 1.70711 9.70711L5 6.41421L8.29289 9.70711C8.68342 10.0976 9.31658 10.0976 9.70711 9.70711C10.0976 9.31658 10.0976 8.68342 9.70711 8.29289L6.41421 5L9.70711 1.70711C10.0976 1.31658 10.0976 0.683417 9.70711 0.292893C9.31658 -0.0976311 8.68342 -0.0976311 8.29289 0.292893L5 3.58579L1.70711 0.292893Z" fill="currentColor"></path></svg></button>
+                        <div className="content text-center">
+                            <h2 style={{fontSize: '18px'}}>Successfully Purchased</h2>
+                        </div>
 
                     </ReactModal>
                 </div>
