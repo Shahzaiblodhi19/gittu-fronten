@@ -786,7 +786,7 @@ function Home() {
                     {blogPosts.map((post, index) => (
                         <div key={index} className="slider-item">
                             <div className="image-w">
-                                <img src={!post.image ? post.image : `https://node-server-beryl.vercel.app/uploads/${post.image}`} alt={post.title} />
+                                <img src={post.image} alt={post.title} />
                             </div>
                             <div className="post-info">
                                 <h3>{post.subHeading}</h3>
