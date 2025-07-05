@@ -348,7 +348,7 @@ function Blogs() {
                                     {currentPosts.length !== 0 ? currentPosts.map((blog) => (
                                         <tr key={blog._id}>
                                             <td style={{width: '140px'}} ><img style={{width: '100%'}} src={blog.image} alt={blog.title} /></td> {/* Image column */}
-                                            <td className="d-flex align-items-start flex-column mt-2 table-cell" style={{ gap: '5px', marginLeft: '-170px' }}>
+                                            <td className="d-flex align-items-start flex-column mt-2 table-cell" style={{ gap: '5px' }}>
                                                 <div>{blog.title}</div>
                                                 <div className="paras">{blog.description.slice(0, 52) + ' ...'}</div>
                                             </td>
