@@ -1616,7 +1616,6 @@ input {
 
 /* Default styles */
 .table-cell {
-  margin-left: -170px;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -1625,26 +1624,13 @@ input {
 
 /* Responsive adjustments */
 @media (max-width: 1224px) {
-  .table-cell {
-    margin-left: calc(-170px + 14vw) !important;
-  }
+
 
   .mhm button {
     display: flex !important;
   }
 }
 
-@media (max-width: 768px) {
-  .table-cell {
-    margin-left: calc(-170px + 18vw) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .table-cell {
-    margin-left: calc(-170px + 35vw) !important;
-  }
-}
 
 
 @media screen and (max-width: 620px) {
