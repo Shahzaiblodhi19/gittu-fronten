@@ -35,7 +35,7 @@ function EditBlog() {
                     setSubHeading(data.subHeading);
                     setDate(data.date);
                     setDescription(data.description);
-                    setImage(imageUrl); // Set the image URL correctly
+                    setImage(data.image); // Set the image URL correctly
                 })
                 .catch(error => console.error('Error fetching blog data:', error));
         }
