@@ -444,7 +444,14 @@ function Home() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
                         <div className="nav ">
-                           {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''}
+                           {wallet.publicKey?.toString() === adminAddress ? (
+    <button>
+        <Link to="/all-blogs" style={{ textDecoration: 'none', color: 'white' }}>
+            Create Blog
+        </Link>
+    </button>
+) : null}
+
                             <button className="hmm"><ScrollLink to="affiliate"
                                 smooth={true}  // Enable smooth scrolling
                                 duration={500} // Duration of the scroll (in ms)
