@@ -35,13 +35,7 @@ function EditBlog() {
                     setSubHeading(data.subHeading);
                     setDate(data.date);
                     setDescription(data.description);
-                    if (data.image) {
-                        // If the image is a relative URL, prepend the base URL
-                        const imageUrl = !data.image.startsWith('https') ? data.image : `https://node-server-beryl.vercel.app/uploads/${data.image}`;
-                        setImage(imageUrl); // Set the image URL correctly
-                    } else {
-                        setImage(null); // If no image, set to null
-                    }
+                    setImage(imageUrl); // Set the image URL correctly
                 })
                 .catch(error => console.error('Error fetching blog data:', error));
         }
@@ -393,7 +387,7 @@ function EditBlog() {
                                         />
                                         {/* Display preview image from URL if it exists */}
                                         <img
-                                            src={image && image.startsWith('blob') ? image : `https://node-server-beryl.vercel.app/uploads/${image}`}
+                                            src={image}
                                             alt="Blog preview"
                                             className="image-preview"
                                         />
