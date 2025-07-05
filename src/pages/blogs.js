@@ -347,7 +347,7 @@ function Blogs() {
                                 <tbody className="position-relative" style={{ height: currentPosts.length !== 0 ? 'auto' : '100px' }}>
                                     {currentPosts.length !== 0 ? currentPosts.map((blog) => (
                                         <tr key={blog._id}>
-                                            <td><img src={!blog.image ? blog.image : `https://node-server-beryl.vercel.app/uploads/${blog.image}`} alt={blog.title} /></td> {/* Image column */}
+                                            <td><img src={blog.image} alt={blog.title} /></td> {/* Image column */}
                                             <td className="d-flex align-items-start flex-column mt-2 table-cell" style={{ gap: '5px', marginLeft: '-170px' }}>
                                                 <div>{blog.title}</div>
                                                 <div className="paras">{blog.description.slice(0, 52) + ' ...'}</div>
