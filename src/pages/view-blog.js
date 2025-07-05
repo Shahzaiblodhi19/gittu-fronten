@@ -145,7 +145,7 @@ const ViewBlog = () => {
     if (isLoading) {
         return <div className="loader m-auto" style={{ position: 'absolute', top: '45%', left: '50%' }}>
             <div className="spinner" style={{ color: '#000' }}></div>
-        </div>; // Show loading state while data is being fetched
+        </div>; // Show loading state while data is being fetcheds
     }
 
     if (error) {
