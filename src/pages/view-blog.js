@@ -307,7 +307,7 @@ const ViewBlog = () => {
                     <p className="mb-2" style={{ color: '#16BF86', fontSize: '16px' }}>{blog.subHeading}</p>
                     <h1 className="mb-4" style={{ fontSize: '32px' }}>{blog.title}</h1>
                     <div className="wid" style={{ height: 'auto', width: '80%' }}>
-                        <img style={{ width: '100%', height: '100%', borderRadius: '10px' }} src={`https://node-server-beryl.vercel.app/uploads/${blog.image}`} alt={blog.title} className="blog-image mt-2" />
+                        <img style={{ width: '100%', height: '100%', borderRadius: '10px' }} src={blog.image} alt={blog.title} className="blog-image mt-2" />
                     </div>
                     <p className="mt-4"><strong>{blog.date}</strong></p>
                     <p className="wid" style={{ width: '90%' }}>{blog.description}</p>
