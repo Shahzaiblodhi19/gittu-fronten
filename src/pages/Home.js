@@ -444,8 +444,7 @@ function Home() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
                         <div className="nav ">
-                            {/* {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''} */}
-                            <button className="hmm"><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button>
+                           {walletAddress === adminAddress ? <button><Link style={{ textDecorationLine: 'none', color: 'white' }} to={'/all-blogs'}>Create Blog</Link></button> : ''}
                             <button className="hmm"><ScrollLink to="affiliate"
                                 smooth={true}  // Enable smooth scrolling
                                 duration={500} // Duration of the scroll (in ms)
